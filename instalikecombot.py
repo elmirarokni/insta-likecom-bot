@@ -8,6 +8,7 @@
     LICENSE: MIT
 """
 
+# HEROKU HOSTING with CHROMEDRIVER
 
 import logging
 import time
@@ -67,6 +68,8 @@ instalikecombot.py bob101 b@bpassw0rd1 elonmusk -np 20
 instalikecombot.py bob101 b@bpassw0rd1 #haiku -ps "Follow me @bob101" -c mycomments.txt
 instalikecombot.py bob101 b@bpassw0rd1 elonmusk --delay 5 --numofposts 30
 """
+
+
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description=description,
