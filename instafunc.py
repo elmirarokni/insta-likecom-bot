@@ -10,12 +10,14 @@
     LICENSE: MIT
 """
 
+# HEROKU HOSTING with CHROMEDRIVER
+
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -25,7 +27,7 @@ from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.remote.webelement import WebElement
 
 # Added for FireFox support
-from webdriver_manager.firefox import GeckoDriverManager
+# from webdriver_manager.firefox import GeckoDriverManager
 
 import os
 import time
@@ -56,40 +58,20 @@ def retry(func):
 
 
 class Insta:
-    def __init__(self, username, password, timeout=30, browser='chrome', headless=False):
-        # current working directory/driver
-        self.browser = 'chrome'
-        self.driver_baseloc = os.path.join(os.getcwd(), 'driver')
+    def __init__(self, username, password, timeout=30):
 
-        # Firefox
-        if browser.lower() == 'firefox':
-            self.browser = 'firefox'
-            # Firefox Options
-            options = FirefoxOptions()
-            if headless:
-                options.add_argument("--headless")
-            options.set_preference("dom.webnotifications.enabled", False)
-            options.log.level = 'fatal'
+        self.driver = None
 
-            # current working directory/driver/firefox
-            self.driver = webdriver.Firefox(
-                executable_path=GeckoDriverManager(path=os.path.join(self.driver_baseloc, 'firefox')).install(),
-                options=options)
-        # Chrome
-        else:
-            # Chrome Options
-            options = ChromeOptions()
-            if headless:
-                options.add_argument("--headless")
-            options.add_argument("--disable-notifications")
-            options.add_experimental_option('excludeSwitches', ['enable-logging'])
-            options.add_argument("--log-level=3")
-
-            # current working directory/driver/chrome
-            self.driver = webdriver.Chrome(
-                executable_path=ChromeDriverManager(path=os.path.join(self.driver_baseloc, 'chrome')).install(),
-                options=options)
-
+        # Chrome Options
+        options = ChromeOptions()
+        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        options.add_argument("--headless")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-notifications")
+        options.add_argument("--log-level=3")
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         self.wait = WebDriverWait(self.driver, timeout)
         self.baseurl = "https://www.instagram.com"
         self.targeturl = self.baseurl
@@ -97,6 +79,7 @@ class Insta:
         self.password = password
         self.tag = None
         self.account = None
+
 
     def target(self, accountname, tag=False):
         """
