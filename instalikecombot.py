@@ -88,10 +88,9 @@ comments_group.add_argument('-c', '--comments', type=str, metavar='', help='file
 comments_group.add_argument('-nc', '--nocomments', action='store_true', help='turn off comments')
 
 parser.add_argument('-et', '--eltimeout',  type=str, metavar='', help='max time to wait for elements to be loaded (default=30)', default=30)
-
 parser.add_argument('-d', '--delay', type=int, metavar='', help='time to wait during post switch')
-parser.add_argument('-br', '--browser',  type=str, metavar='', choices = ('chrome', 'firefox'), help='browser to use [chrome|firefox] (default=chrome)', default='chrome')
-parser.add_argument('-hl', '--headless',  action='store_true', help='headless mode')
+# parser.add_argument('-br', '--browser',  type=str, metavar='', choices = ('chrome', 'firefox'), help='browser to use [chrome|firefox] (default=chrome)', default='chrome')
+# parser.add_argument('-hl', '--headless',  action='store_true', help='headless mode')
 parser.add_argument('-v', '--version', action='version', version=f'%(prog)s {VERSION}')
 
 args = parser.parse_args()
@@ -131,16 +130,14 @@ try:
         COMMENTS = load_comments(args.comments)
         logger.info(f"Loaded comments from {args.comments}")
     
-    browser = args.browser
-    logger.info(f"Downloading webdriver for your version of {browser.capitalize()}")
+    # browser = args.browser
+    # logger.info(f"Downloading webdriver for your version of {browser.capitalize()}")
 
     logger.info("Initializing instagram user")
     insta = Insta(
-        username=args.username,
+        username=args.username, 
         password=args.password,
-        timeout=args.eltimeout,
-        browser=browser,
-        headless=args.headless
+        timeout=args.eltimeout
         )
 
     logger.info(f"Setting target to: {args.target}")
