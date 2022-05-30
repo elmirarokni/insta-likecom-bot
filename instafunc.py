@@ -16,8 +16,6 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-# from selenium.webdriver.firefox.options import Options as FirefoxOptions
-# from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -35,7 +33,14 @@ import time
 
 # suppress webdriver manager logs
 os.environ['WDM_LOG_LEVEL'] = '0'
-
+options = ChromeOptions()
+options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+options.add_argument("--headless")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-notifications")
+options.add_argument("--log-level=3")
+# options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
 def retry(func):
     """
@@ -59,18 +64,7 @@ def retry(func):
 
 class Insta:
     def __init__(self, username, password, timeout=30):
-
-        self.driver = None
-
-        # Chrome Options
-        options = ChromeOptions()
-        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        options.add_argument("--headless")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-notifications")
-        options.add_argument("--log-level=3")
-        options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        
         self.driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=options)
         self.wait = WebDriverWait(self.driver, timeout)
         self.baseurl = "https://www.instagram.com"
