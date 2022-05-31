@@ -1,5 +1,5 @@
 # insta-likecom-bot
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/elmirarokni/insta-likecom-bot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/elmirarokni/insta-likecom-bot/tree/heroku-hosting-chrome)
 ![MIT License](https://img.shields.io/github/license/shine-jayakumar/Covid19-Exploratory-Analysis-With-SQL)
 
 ### Automates likes and comments on an instagram account or tag
